@@ -7,25 +7,10 @@ import type { SettingSchemaDesc } from '@logseq/libs/dist/LSPlugin.user';
 
 const settingsSchema: SettingSchemaDesc[] = [
   {
-    key: "authMode",
-    type: "enum",
-    enumChoices: ["OAuth (Subscription)", "API Key"],
-    title: "Authentication Mode",
-    description: "Choose between using your Google account via OAuth (to use subscription) or a raw API Key.",
-    default: "OAuth (Subscription)",
-  },
-  {
-    key: "oauthClientId",
-    type: "string",
-    title: "Google OAuth Client ID",
-    description: "If using OAuth auth mode, provide your Google Cloud OAuth Client ID.",
-    default: "",
-  },
-  {
     key: "apiKey",
     type: "string",
     title: "Gemini API Key",
-    description: "Enter your Gemini API key if using 'API Key' auth mode.",
+    description: "Enter your Gemini API key from Google AI Studio. (Required)",
     default: "",
   },
   {

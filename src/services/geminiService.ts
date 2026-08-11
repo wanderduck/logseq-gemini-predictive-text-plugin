@@ -4,8 +4,6 @@ import '@logseq/libs';
 export class GeminiService {
   private genAI: GoogleGenerativeAI | null = null;
   private apiKey: string = '';
-  private authMode: string = 'OAuth (Subscription)';
-  private oauthToken: string = '';
 
   constructor() {
     // Initial configuration sync
@@ -20,27 +18,17 @@ export class GeminiService {
   public updateConfig() {
     if (!logseq.settings) return;
     
-    this.authMode = (logseq.settings.authMode as string) || 'OAuth (Subscription)';
     this.apiKey = (logseq.settings.apiKey as string) || '';
     
-    if (this.authMode === 'API Key' && this.apiKey) {
+    if (this.apiKey) {
       this.genAI = new GoogleGenerativeAI(this.apiKey);
     } else {
-      this.genAI = null; // Use REST with OAuth token
+      this.genAI = null;
     }
   }
 
-  public setOAuthToken(token: string) {
-    this.oauthToken = token;
-  }
-
-  public getAuthMode() {
-    return this.authMode;
-  }
-
   public hasValidCredentials(): boolean {
-    if (this.authMode === 'API Key') return !!this.apiKey;
-    return !!this.oauthToken;
+    return !!this.apiKey;
   }
 
   public async generatePredictions(
@@ -69,33 +57,13 @@ Current Text:
 ${currentBlockContent}`;
 
     try {
-      if (this.authMode === 'API Key' && this.genAI) {
+      if (this.genAI) {
         const model = this.genAI.getGenerativeModel({ model: modelName as string });
         const result = await model.generateContent(prompt);
         const text = result.response.text();
         return this.parsePredictions(text);
-      } else if (this.authMode === 'OAuth (Subscription)' && this.oauthToken) {
-        // Fallback to REST API using OAuth Bearer Token
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent`, {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${this.oauthToken}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            contents: [{ parts: [{ text: prompt }] }]
-          })
-        });
-        
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
-        const data = await response.json();
-        const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
-        return this.parsePredictions(text);
       } else {
-        throw new Error("Missing API Key or OAuth Token. Please check plugin settings.");
+        throw new Error("Missing API Key. Please check plugin settings.");
       }
     } catch (error) {
       console.error("Gemini API Error:", error);
