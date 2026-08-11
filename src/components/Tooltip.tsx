@@ -12,9 +12,9 @@ export interface TooltipProps {
 export const Tooltip: React.FC<TooltipProps> = ({ suggestions, position, onAccept, isLoading }) => {
   if (!position) return null;
 
-  // We add some offset so it appears below the cursor
-  const top = position.top + (position.rect?.height || 20) + 5;
-  const left = position.left;
+  // It should appear 33px below and 13px to the right of the cursor's current location.
+  const top = position.top + 33;
+  const left = position.left + 13;
 
   return (
     <div 

@@ -3,11 +3,11 @@
   background: var(--ls-primary-background-color, #ffffff);
   border: 1px solid var(--ls-border-color, #d1d5db);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  border-radius: 6px;
   padding: 8px;
   z-index: 10000;
-  min-width: 200px;
-  max-width: 400px;
+  width: 777px;
+  height: 123px;
+  overflow-y: auto;
   pointer-events: auto; /* capture clicks for suggestions */
   font-family: inherit;
   color: var(--ls-primary-text-color, #333333);

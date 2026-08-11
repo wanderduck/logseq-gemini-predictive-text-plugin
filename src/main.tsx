@@ -32,10 +32,10 @@ const settingsSchema: SettingSchemaDesc[] = [
   {
     key: "modelName",
     type: "enum",
-    enumChoices: ["gemini-1.5-flash", "gemini-1.5-pro", "gemini-2.0-flash", "gemini-2.5-flash"],
+    enumChoices: ["gemini-3.6-flash", "gemini-3.5-flash", "gemini-3.1-flash", "gemini-3.1-pro"],
     title: "Model Selection",
     description: "Select the Gemini model to use for predictions.",
-    default: "gemini-1.5-flash",
+    default: "gemini-3.6-flash",
   },
   {
     key: "queryEntireDb",

@@ -38,7 +38,7 @@ export class GeminiService {
     currentBlockContent: string,
     suggestionCount: number = 3
   ): Promise<string[]> {
-    const modelName = logseq.settings?.modelName || 'gemini-1.5-flash';
+    const modelName = logseq.settings?.modelName || 'gemini-3.6-flash';
     const prompt = `You are a predictive text AI in Logseq.
 Based on the following context, provide ${suggestionCount} short, natural, inline completions for the current text.
 Use the User Memory Examples to match their tone, vocabulary, and style.
@@ -65,9 +65,9 @@ ${currentBlockContent}`;
       } else {
         throw new Error("Missing API Key. Please check plugin settings.");
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Gemini API Error:", error);
-      logseq.UI.showMsg("Failed to generate prediction. Check console for details.", "error");
+      logseq.UI.showMsg(`Prediction failed: ${error.message || "Check console for details."}`, "error");
       return [];
     }
   }
