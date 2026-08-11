@@ -6,6 +6,7 @@ export function usePredictiveText() {
   const [position, setPosition] = useState<{ left: number; top: number; rect?: DOMRect } | null>(null);
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(0);
   
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -13,6 +14,7 @@ export function usePredictiveText() {
     setPosition(null);
     setSuggestions([]);
     setIsLoading(false);
+    setSelectedIndex(0);
   };
 
   const triggerPrediction = async () => {
@@ -82,6 +84,10 @@ export function usePredictiveText() {
   };
 
   useEffect(() => {
+    setSelectedIndex(0);
+  }, [suggestions]);
+
+  useEffect(() => {
     const handleKeyDown = async (e: KeyboardEvent) => {
       // If suggestions are showing, we intercept keys
       if (position) {
@@ -91,9 +97,20 @@ export function usePredictiveText() {
           e.stopPropagation();
           return;
         }
-        if (e.key === 'Tab' && suggestions.length > 0) {
-          // Accept first suggestion
-          const acceptedText = suggestions[0];
+        if (e.key === 'ArrowDown') {
+          setSelectedIndex(prev => Math.min(prev + 1, suggestions.length - 1));
+          e.preventDefault();
+          e.stopPropagation();
+          return;
+        }
+        if (e.key === 'ArrowUp') {
+          setSelectedIndex(prev => Math.max(prev - 1, 0));
+          e.preventDefault();
+          e.stopPropagation();
+          return;
+        }
+        if ((e.key === 'Tab' || e.key === 'Enter') && suggestions.length > 0) {
+          const acceptedText = suggestions[selectedIndex];
           await logseq.Editor.insertAtEditingCursor(acceptedText);
           await memoryService.saveAccepted(acceptedText); // Save to Memory
           clearSuggestions();
@@ -101,8 +118,7 @@ export function usePredictiveText() {
           e.stopPropagation();
           return;
         }
-        if (['1','2','3'].includes(e.key) && e.ctrlKey && suggestions.length >= parseInt(e.key)) {
-          // Accept specific suggestion via Ctrl+1/2/3
+        if (/^[1-9]$/.test(e.key) && suggestions.length >= parseInt(e.key)) {
           const acceptedText = suggestions[parseInt(e.key) - 1];
           await logseq.Editor.insertAtEditingCursor(acceptedText);
           await memoryService.saveAccepted(acceptedText); // Save to Memory
@@ -153,6 +169,7 @@ export function usePredictiveText() {
     position,
     suggestions,
     isLoading,
+    selectedIndex,
     clearSuggestions,
     acceptSuggestion: async (text: string) => {
       await logseq.Editor.insertAtEditingCursor(text);

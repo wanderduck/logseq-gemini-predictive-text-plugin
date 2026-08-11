@@ -4,7 +4,7 @@ import { usePredictiveText } from './hooks/usePredictiveText';
 import './App.css';
 
 function App() {
-  const { position, suggestions, isLoading, clearSuggestions, acceptSuggestion } = usePredictiveText();
+  const { position, suggestions, isLoading, clearSuggestions, acceptSuggestion, selectedIndex } = usePredictiveText();
 
   // Show UI when Tooltip is active
   useEffect(() => {
@@ -24,6 +24,7 @@ function App() {
           isLoading={isLoading}
           onAccept={acceptSuggestion}
           onReject={clearSuggestions}
+          selectedIndex={selectedIndex}
         />
       )}
     </>
