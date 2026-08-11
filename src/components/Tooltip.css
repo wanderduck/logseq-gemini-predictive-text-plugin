@@ -1,0 +1,58 @@
+.predictive-tooltip {
+  position: absolute;
+  background: var(--ls-primary-background-color, #ffffff);
+  border: 1px solid var(--ls-border-color, #d1d5db);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  padding: 8px;
+  z-index: 10000;
+  min-width: 200px;
+  max-width: 400px;
+  pointer-events: auto; /* capture clicks for suggestions */
+  font-family: inherit;
+  color: var(--ls-primary-text-color, #333333);
+}
+
+.tooltip-loading, .tooltip-empty {
+  padding: 8px;
+  color: var(--ls-secondary-text-color, #6b7280);
+  font-size: 0.9em;
+  font-style: italic;
+}
+
+.suggestion-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.suggestion-item {
+  padding: 6px 8px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.1s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.suggestion-item:hover, .suggestion-item.active {
+  background: var(--ls-secondary-background-color, #f3f4f6);
+}
+
+.suggestion-shortcut {
+  background: var(--ls-tertiary-background-color, #e5e7eb);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.8em;
+  font-weight: bold;
+  color: var(--ls-secondary-text-color, #6b7280);
+}
+
+.tooltip-footer {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--ls-border-color, #d1d5db);
+  color: var(--ls-secondary-text-color, #6b7280);
+  text-align: right;
+}

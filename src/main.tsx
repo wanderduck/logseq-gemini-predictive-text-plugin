@@ -1,0 +1,74 @@
+import '@logseq/libs';
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+import App from './App.tsx'
+import type { SettingSchemaDesc } from '@logseq/libs/dist/LSPlugin.user';
+
+const settingsSchema: SettingSchemaDesc[] = [
+  {
+    key: "authMode",
+    type: "enum",
+    enumChoices: ["OAuth (Subscription)", "API Key"],
+    title: "Authentication Mode",
+    description: "Choose between using your Google account via OAuth (to use subscription) or a raw API Key.",
+    default: "OAuth (Subscription)",
+  },
+  {
+    key: "oauthClientId",
+    type: "string",
+    title: "Google OAuth Client ID",
+    description: "If using OAuth auth mode, provide your Google Cloud OAuth Client ID.",
+    default: "",
+  },
+  {
+    key: "apiKey",
+    type: "string",
+    title: "Gemini API Key",
+    description: "Enter your Gemini API key if using 'API Key' auth mode.",
+    default: "",
+  },
+  {
+    key: "triggerMode",
+    type: "enum",
+    enumChoices: ["Automatic (Pause)", "Manual Trigger"],
+    title: "Trigger Mode",
+    description: "Choose how predictive text is triggered. 'Automatic' triggers when you pause typing. 'Manual' requires pressing a hotkey.",
+    default: "Automatic (Pause)",
+  },
+  {
+    key: "hotkey",
+    type: "enum",
+    enumChoices: ["CTRL+Space", "ALT+Space"],
+    title: "Manual Trigger Hotkey",
+    description: "If using Manual Trigger mode, choose the hotkey to activate predictions.",
+    default: "CTRL+Space",
+  },
+  {
+    key: "modelName",
+    type: "enum",
+    enumChoices: ["gemini-1.5-flash", "gemini-1.5-pro", "gemini-2.0-flash", "gemini-2.5-flash"],
+    title: "Model Selection",
+    description: "Select the Gemini model to use for predictions.",
+    default: "gemini-1.5-flash",
+  },
+  {
+    key: "queryEntireDb",
+    type: "boolean",
+    title: "Query Entire Database",
+    description: "If enabled, gathers context from your entire graph (up to a safe token limit) to help the AI predict when uncertain. Can slow down predictions slightly.",
+    default: false,
+  }
+];
+
+function main() {
+  logseq.useSettingsSchema(settingsSchema);
+  
+  createRoot(document.getElementById('root')!).render(
+    <StrictMode>
+      <App />
+    </StrictMode>,
+  );
+}
+
+logseq.ready(main).catch(console.error);

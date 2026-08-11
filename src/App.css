@@ -1,0 +1,39 @@
+#root {
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none; /* Let clicks pass through to Logseq when hidden */
+}
+
+.plugin-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  pointer-events: auto; /* Capture clicks when modal is open */
+}
+
+.modal-content {
+  background: var(--ls-primary-background-color, #fff);
+  padding: 20px;
+  border-radius: 8px;
+  position: relative;
+  min-width: 300px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: var(--ls-primary-text-color, #333);
+}
