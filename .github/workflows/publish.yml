@@ -1,0 +1,43 @@
+name: Build and Publish Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm install
+        
+      - name: Build plugin
+        run: npm run build
+        
+      - name: Create Plugin Zip
+        run: |
+          mkdir -p logseq-gemini-predictive-text
+          cp -r dist logseq-gemini-predictive-text/
+          cp package.json logseq-gemini-predictive-text/
+          cp README.md logseq-gemini-predictive-text/
+          if [ -f "icon.svg" ]; then cp icon.svg logseq-gemini-predictive-text/; fi
+          zip -r logseq-gemini-predictive-text.zip logseq-gemini-predictive-text
+          
+      - name: Upload Release Asset
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: logseq-gemini-predictive-text.zip
+          fail_on_unmatched_files: true
+          generate_release_notes: true
