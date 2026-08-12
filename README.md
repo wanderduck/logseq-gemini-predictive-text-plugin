@@ -2,6 +2,10 @@
 
 A powerful, context-aware AI predictive text plugin for [Logseq](https://logseq.com/), powered by the Google Gemini API. As you type in Logseq, this plugin analyzes your current page (and optionally, your entire knowledge graph) to offer intelligent, inline autocomplete suggestions that adapt to your unique writing style.
 
+![Gemini Predictive Text Plugin Screenshot](./public/demo_tooltip.png)
+
+---
+
 ## Features
 
 - **Context-Aware Predictions**: Analyzes your current page's blocks to offer highly relevant completions for your thoughts.
@@ -37,6 +41,9 @@ Before using the plugin, you must configure it in the plugin settings menu. Navi
 * **Manual Trigger Hotkey**: If using Manual Trigger, choose the shortcut (e.g., `CTRL+Space` or `ALT+Space`).
 * **Model Selection**: Choose which Gemini model to use. Defaults to `gemini-3.6-flash` (recommended for speed and cost-efficiency).
 * **Query Entire Database**: If enabled, the plugin will perform a global search across your entire Logseq graph to gather broader context. Note: this may slightly slow down prediction times.
+
+
+![Plugin Settings Screenshot](./public/demo_settings.png)
 
 ---
 
