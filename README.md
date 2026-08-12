@@ -28,6 +28,12 @@ A powerful, context-aware AI predictive text plugin for [Logseq](https://logseq.
 5. Open the **Plugins** menu (jigsaw puzzle icon in the top toolbar).
 6. Click **Load unpacked plugin** and select the folder containing this plugin.
 
+### Option 2: Install from Logseq Marketplace
+1. Open Logseq.
+2. Navigate to the **Plugins** menu (jigsaw puzzle icon in the top toolbar).
+3. Click **Marketplace**.
+4. Search for "Gemini Predictive Text" and click **Install**.
+
 ---
 
 ## Configuration & Settings
